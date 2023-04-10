@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import getState from "./flux.js";
+import { json } from "react-router";
 
 // Don't change, here is where we initialize our context, by default it's just going to be null.
 export const Context = React.createContext(null);
@@ -19,7 +20,13 @@ const injectContext = PassedComponent => {
 						actions: { ...state.actions }
 					})
 			})
+			
 		);
+
+		useEffect(() => {
+			state.actions.loadPlanetsData()
+		}, [state.store.tempfetchplanets])
+
 
 		useEffect(() => {
 			/**
@@ -31,7 +38,14 @@ const injectContext = PassedComponent => {
 			 * state.actions.loadSomeData(); <---- calling this function from the flux.js actions
 			 *
 			 **/
-		}, []);
+			
+			state.actions.loadPeopleData()
+		}, [state.store.tempfetch])
+
+		useEffect(() => {
+			state.actions.loadVehiclesData()
+		}, [state.store.tempfetchvehicles])
+			
 
 		// The initial value for the context is not null anymore, but the current state of this component,
 		// the context will now have a getStore, getActions and setStore functions available, because they were declared
